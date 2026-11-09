@@ -40,7 +40,8 @@
   --shadow-card: 0 1px 2px rgba(20,40,45,.06), 0 1px 3px rgba(20,40,45,.05);
   --shadow-pop:  0 10px 36px rgba(15,30,35,.24);
   --focus-ring:  0 0 0 3px rgba(28,127,112,.16);
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --app-h: 100vh;
 }
 
 * { box-sizing: border-box; }
@@ -55,6 +56,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 body.ext-noscroll { overflow: hidden; }
+
+/* Windows smaller than the 1024×768 design are drawn at full size and scaled down
+   (transform set in extension.js), so layouts never squash or reflow. */
+html.is-staged { --app-h: 768px; background: #1e2a2d; overflow: hidden; }
+html.is-staged body {
+  width: 1024px; height: 768px; position: relative; overflow: hidden;
+  transform-origin: 0 0; box-shadow: 0 0 0 1px rgba(0,0,0,.2);
+}
 button { font-family: inherit; cursor: pointer; }
 button:focus { outline: 0; }
 button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
@@ -66,7 +75,7 @@ svg { display: block; }
 ::-webkit-scrollbar-thumb { background: #cdd4d8; border-radius: 999px; border: 2px solid var(--bg); }
 
 /* ===================== App shell ===================== */
-.ext-app { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.ext-app { height: var(--app-h); display: flex; flex-direction: column; overflow: hidden; }
 
 /* ===================== Top bar (teal, compact) ===================== */
 .ext-topbar {
@@ -353,7 +362,7 @@ svg { display: block; }
 
 .ext-modal {
   background: var(--surface); border-radius: 16px;
-  width: 460px; max-width: 100%; max-height: calc(100vh - 40px);
+  width: 460px; max-width: 100%; max-height: calc(var(--app-h) - 40px);
   display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-pop);
   animation: extPop .16s ease;
 }
@@ -417,7 +426,7 @@ svg { display: block; }
 .ext-key--back { font-size: 20px; color: var(--ink-soft); }
 
 /* ---- full-page tender ---- */
-.ext-payfull { width: min(1000px, 100%); height: calc(100vh - 24px); max-height: calc(100vh - 24px); border-radius: 14px; }
+.ext-payfull { width: min(1000px, 100%); height: calc(var(--app-h) - 24px); max-height: calc(var(--app-h) - 24px); border-radius: 14px; }
 .ext-payfull__head { display: flex; align-items: center; gap: 16px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 .ext-payfull__back { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 14px 0 10px; border: 1px solid var(--line); border-radius: var(--rpill); background: var(--surface); font-size: 13px; font-weight: 700; color: var(--ink-soft); }
 .ext-payfull__back:hover { border-color: var(--teal); color: var(--teal); }
@@ -520,7 +529,7 @@ svg { display: block; }
 /* ---- customer notes modal ---- */
 .ext-notes { width: 480px; }
 .ext-notes__count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--surface-3); color: var(--ink-soft); font-size: 11px; font-weight: 800; vertical-align: middle; }
-.ext-notes__list { padding: 4px 20px 8px; overflow: auto; max-height: 46vh; }
+.ext-notes__list { padding: 4px 20px 8px; overflow: auto; max-height: calc(var(--app-h) * .46); }
 .ext-note { padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
 .ext-note:last-child { border-bottom: 0; }
 .ext-note__meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
@@ -542,7 +551,7 @@ svg { display: block; }
 .ext-allot__in { color: var(--teal); font-weight: 700; }
 
 /* ===================== Add-products (material lookup) modal ===================== */
-.ext-lookup { position: relative; width: min(1000px, 100%); height: calc(100vh - 24px); max-height: calc(100vh - 24px); border-radius: 14px; }
+.ext-lookup { position: relative; width: min(1000px, 100%); height: calc(var(--app-h) - 24px); max-height: calc(var(--app-h) - 24px); border-radius: 14px; }
 
 /* header: title + search + classic + done */
 .ext-lk__head { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
@@ -785,14 +794,4 @@ svg { display: block; }
 .ext-toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 .ext-toast .ic { color: #7ad6b4; }
 
-/* ===================== Responsive fallback (narrow screens) ===================== */
-@media (max-width: 900px) {
-  html, body { height: auto; }
-  body { overflow: auto; }
-  .ext-app { overflow: visible; }
-  .ext-main { grid-template-columns: 1fr; }
-  .ext-left { overflow: visible; }
-  .ext-rail { min-height: 0; border-left: 0; border-top: 1px solid var(--line); }
-  .ext-rail__scroll { overflow: visible; }
-  .ext-drawer { max-width: 100%; }
-}
+

@@ -5,7 +5,7 @@
 (function () {
   "use strict";
 
-  var APP_VERSION = "0.1.0"; // bump on every shared release; see CHANGELOG.md
+  var APP_VERSION = "0.1.1"; // bump on every shared release; see CHANGELOG.md
   var TAX_RATE = 0; // medical flower is tax-exempt in many markets; kept editable
 
   // ---------- seeded demo data (mirrors the OMS Med Sale screenshot) ----------
@@ -1704,7 +1704,22 @@
     });
   }
 
-  function init() { render(); bind(); }
+  var STAGE_W = 1024, STAGE_H = 768;
+  function fitStage() {
+    var w = window.innerWidth, h = window.innerHeight;
+    var s = Math.min(w / STAGE_W, h / STAGE_H);
+    var staged = s < 1;
+    document.documentElement.classList.toggle("is-staged", staged);
+    document.body.style.transform = staged
+      ? "translate(" + Math.round((w - STAGE_W * s) / 2) + "px," + Math.round((h - STAGE_H * s) / 2) + "px) scale(" + s + ")"
+      : "";
+  }
+
+  function init() {
+    fitStage();
+    window.addEventListener("resize", fitStage);
+    render(); bind();
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
