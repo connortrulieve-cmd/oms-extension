@@ -1,0 +1,12 @@
+# Only the extension skin is published; everything else in this folder stays local.
+/*
+!/.gitignore
+!/.github/
+!/CHANGELOG.md
+!/extension/
+!/js/
+/js/*
+!/js/icons.js
+!/js/data.js
+
+.DS_Store

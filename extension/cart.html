@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1024, initial-scale=1.0" />
+  <title>OMS+ — Med Sale Cart (Extension)</title>
+  <link rel="stylesheet" href="extension.css?v=32" />
+</head>
+<body>
+  <div class="ext-app">
+    <header class="ext-topbar" id="extTopbar"></header>
+    <section class="ext-cust" id="extCust"></section>
+
+    <main class="ext-main">
+      <div class="ext-left"><div id="extOrder"></div></div>
+      <aside class="ext-rail" id="extRail"></aside>
+    </main>
+  </div>
+
+  <!-- overlay root for modals + drawers -->
+  <div class="ext-ov" id="extOverlay" hidden></div>
+
+  <div class="ext-toast" id="extToast"></div>
+
+  <!-- shared foundation -->
+  <script src="../js/icons.js?v=21"></script>
+  <script src="../js/data.js?v=12"></script>
+  <!-- extension skin -->
+  <script src="extension.js?v=31"></script>
+</body>
+</html>
